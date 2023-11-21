@@ -26,3 +26,22 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+let lastId = 0;
+
+export function generateId() {
+  return ++lastId;
+}
+
+export function getTimesWord(number) {
+  const lastDigit = number % 10;
+  const secondLastDigit = Math.floor((number % 100) / 10);
+
+  if (lastDigit === 1 && secondLastDigit !== 1) {
+    return 'раз';
+  } else if (lastDigit >= 2 && lastDigit <= 4 && secondLastDigit !== 1) {
+    return 'раза';
+  } else {
+    return 'раз';
+  }
+}
