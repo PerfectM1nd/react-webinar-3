@@ -18,6 +18,11 @@ function App({store}) {
     return item.title;
   }
 
+  const handleDeleteButtonClick = (event, code) => {
+    store.deleteItem(code)
+    event.stopPropagation();
+  }
+
   return (
     <div className='App'>
       <div className='App-head'>
@@ -35,7 +40,7 @@ function App({store}) {
                 <div className='Item-code'>{item.code}</div>
                 <div className='Item-title'>{getTitle(item)}</div>
                 <div className='Item-actions'>
-                  <button onClick={() => store.deleteItem(item.code)}>
+                  <button onClick={(event) => handleDeleteButtonClick(event, item.code)}>
                     Удалить
                   </button>
                 </div>
