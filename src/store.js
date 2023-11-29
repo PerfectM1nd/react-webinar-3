@@ -40,47 +40,48 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
-  /**
-   * Добавление новой записи
-   */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
-    })
-  };
+  getTotalItemsCount() {
+    return this.state.cartItems.length;
+  }
 
-  /**
-   * Удаление записи по коду
-   * @param code
-   */
-  deleteItem(code) {
-    this.setState({
-      ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
-    })
-  };
+  getTotalPrice() {
+    return this.state.cartItems.reduce((acc, item) => acc + item.price * item.amountInCart, 0);
+  }
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
+  getItemByCode(code) {
+    return this.state.list.find((item) => item.code === code);
+  }
+
+  addCartItem(code) {
+    if (this.state.cartItems.find((selectedItem) => selectedItem.code === code)) {
+      this.setState({
+        ...this.state,
+        cartItems: this.state.cartItems.map((item) => {
+          if (item.code !== code) return item;
           return {
             ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
+            amountInCart: item.amountInCart + 1
+          }
+        })
       })
+    } else {
+      this.setState({
+        ...this.state,
+        cartItems: [
+          ...this.state.cartItems,
+          {
+            ...this.getItemByCode(code),
+            amountInCart: 1
+          }
+        ]
+      })
+    }
+  }
+
+  deleteCartItem(code) {
+    this.setState({
+      ...this.state,
+      cartItems: this.state.cartItems.filter((item) => item.code !== code)
     })
   }
 }

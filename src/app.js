@@ -1,8 +1,9 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
+import CartModal from "./components/cart-modal";
 
 /**
  * Приложение
@@ -11,29 +12,54 @@ import PageLayout from "./components/page-layout";
  */
 function App({store}) {
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const list = store.getState().list;
+  const cartItems = store.getState().cartItems;
+  const totalPrice = store.getTotalPrice();
+  const totalItemsCount = store.getTotalItemsCount();
 
   const callbacks = {
-    onDeleteItem: useCallback((code) => {
-      store.deleteItem(code);
+    onCartOpen: useCallback(() => {
+      setIsCartOpen(true);
+    }, []),
+
+    onCartClose: useCallback(() => {
+      setIsCartOpen(false);
+    }, []),
+
+    onAddCartItem: useCallback((code) => {
+      store.addCartItem(code);
     }, [store]),
 
-    onSelectItem: useCallback((code) => {
-      store.selectItem(code);
+    onDeleteCartItem: useCallback((code) => {
+      store.deleteCartItem(code);
     }, [store]),
-
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store])
   }
 
   return (
     <PageLayout>
-      <Head title='Приложение на чистом JS'/>
-      <Controls onAdd={callbacks.onAddItem}/>
-      <List list={list}
-            onDeleteItem={callbacks.onDeleteItem}
-            onSelectItem={callbacks.onSelectItem}/>
+      <Head title='Магазин'/>
+      <Controls
+        onCartOpen={callbacks.onCartOpen}
+        totalPrice={totalPrice}
+        totalItemsCount={totalItemsCount}
+      />
+      <List
+        list={list}
+        onAddCartItem={callbacks.onAddCartItem}
+      />
+      <CartModal
+        open={isCartOpen}
+        onClose={callbacks.onCartClose}
+        totalPrice={totalPrice}
+      >
+        <List
+          list={cartItems}
+          deletionMode={true}
+          onDeleteCartItem={callbacks.onDeleteCartItem}
+        />
+      </CartModal>
     </PageLayout>
   );
 }
