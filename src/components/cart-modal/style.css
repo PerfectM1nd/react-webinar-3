@@ -4,6 +4,9 @@
   border-radius: 10px;
   border: none;
   overflow: hidden;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
 }
 
 .CartModal {
@@ -20,4 +23,6 @@
 
 .CartModal-content {
   padding: 70px 0 90px;
+  overflow-y: auto;
+  flex-grow: 1;
 }

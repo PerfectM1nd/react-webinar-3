@@ -53,6 +53,7 @@ function App({store}) {
         open={isCartOpen}
         onClose={callbacks.onCartClose}
         totalPrice={totalPrice}
+        totalItemsCount={totalItemsCount}
       >
         <List
           list={cartItems}

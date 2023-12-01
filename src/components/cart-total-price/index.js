@@ -4,11 +4,11 @@ import {cn as bem} from "@bem-react/classname";
 import TotalPriceLabel from "../total-price-label";
 import './style.css';
 
-function CartTotalPrice({totalPrice}) {
+function CartTotalPrice({totalPrice, totalItemsCount}) {
 
   const cn = bem('CartTotalPrice');
 
-  if (totalPrice <= 0) return null;
+  if (totalItemsCount <= 0) return null;
 
   return (
     <div className={cn()}>
@@ -19,7 +19,8 @@ function CartTotalPrice({totalPrice}) {
 }
 
 CartTotalPrice.propTypes = {
-  totalPrice: PropTypes.number.isRequired
+  totalPrice: PropTypes.number.isRequired,
+  totalItemsCount: PropTypes.number.isRequired
 };
 
 export default React.memo(CartTotalPrice);

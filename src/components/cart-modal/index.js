@@ -6,7 +6,7 @@ import {createPortal} from "react-dom";
 import CartTotalPrice from "../cart-total-price";
 import './style.css';
 
-function CartModal({open, onClose, children, totalPrice}) {
+function CartModal({open, onClose, children, totalPrice, totalItemsCount}) {
 
   const cn = bem("CartModal")
 
@@ -27,7 +27,7 @@ function CartModal({open, onClose, children, totalPrice}) {
         />
         <div className={cn('content')}>
           {children}
-          <CartTotalPrice totalPrice={totalPrice}/>
+          <CartTotalPrice totalPrice={totalPrice} totalItemsCount={totalItemsCount}/>
         </div>
       </dialog>
     </div>,
@@ -39,14 +39,14 @@ CartModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.node.isRequired,
-  totalPrice: PropTypes.number
+  totalPrice: PropTypes.number.isRequired,
+  totalItemsCount: PropTypes.number.isRequired
 };
 
 CartModal.defaultProps = {
   open: false,
   onClose: () => {
-  },
-  totalPrice: 0
+  }
 }
 
 export default React.memo(CartModal);
