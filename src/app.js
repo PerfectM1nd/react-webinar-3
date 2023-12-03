@@ -54,13 +54,9 @@ function App({store}) {
         onClose={callbacks.onCartClose}
         totalPrice={totalPrice}
         totalItemsCount={totalItemsCount}
-      >
-        <List
-          list={cartItems}
-          deletionMode={true}
-          onDeleteCartItem={callbacks.onDeleteCartItem}
-        />
-      </CartModal>
+        onDeleteCartItem={callbacks.onDeleteCartItem}
+        cartItems={cartItems}
+      />
     </PageLayout>
   );
 }
