@@ -3,6 +3,7 @@ import Main from "./main";
 import Basket from "./basket";
 import useStore from "../store/use-store";
 import useSelector from "../store/use-selector";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 /**
  * Приложение
@@ -14,7 +15,11 @@ function App() {
 
   return (
     <>
-      <Main/>
+      <Router>
+        <Routes>
+          <Route path=":limit?/:skip?" element={<Main/>} />
+        </Routes>
+      </Router>
       {activeModal === 'basket' && <Basket/>}
     </>
   );

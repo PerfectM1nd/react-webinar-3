@@ -1,0 +1,8 @@
+.PaginationDots {
+  width: 18px;
+  height: 18px;
+  font-size: 16px;
+  color: #ccc;
+  text-align: center;
+  user-select: none;
+}
